@@ -565,7 +565,6 @@ dependencies = [
  "libc",
  "rayon",
  "serde",
- "serde_json",
  "toml",
 ]
 

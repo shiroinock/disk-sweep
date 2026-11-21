@@ -3,6 +3,7 @@ name = "disk-sweep"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
+repository.workspace = true
 description = "AI-friendly disk cleanup: scan, classify, plan, apply (CLI + MCP)"
 
 [features]

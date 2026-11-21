@@ -274,7 +274,7 @@ fn node_from_index(
                 children.push(leaf(f, *b, 1));
             }
         }
-        children.sort_by(|a, b| b.bytes.cmp(&a.bytes));
+        children.sort_by_key(|x| std::cmp::Reverse(x.bytes));
         children.truncate(top);
     }
     ScanNode {
@@ -428,7 +428,7 @@ fn walk(path: &Path, depth_left: usize, ctx: &Ctx, force_fresh: bool) -> Walked 
         denied_list.extend(k.denied);
         dir_nodes.push(k.node);
     }
-    top_files.sort_by(|a, b| b.1.cmp(&a.1));
+    top_files.sort_by_key(|x| std::cmp::Reverse(x.1));
     top_files.truncate(index::TOP_FILES);
 
     if ctx.opts.cache != CacheMode::Off
@@ -457,7 +457,7 @@ fn walk(path: &Path, depth_left: usize, ctx: &Ctx, force_fresh: bool) -> Walked 
     if depth_left > 0 {
         children.append(&mut dir_nodes);
         children.append(&mut nodes);
-        children.sort_by(|a, b| b.bytes.cmp(&a.bytes));
+        children.sort_by_key(|x| std::cmp::Reverse(x.bytes));
         children.truncate(ctx.opts.top);
         children.retain(|k| k.bytes > 0);
     }

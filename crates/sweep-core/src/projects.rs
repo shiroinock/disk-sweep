@@ -210,7 +210,7 @@ pub fn find(root: &Path, max_depth: usize, min_idle_days: u64) -> Vec<ProjectArt
         .map(|(proj, t, art)| to_candidate(proj, t, art, root))
         .filter(|a| a.idle_days >= min_idle_days)
         .collect();
-    v.sort_by(|a, b| b.candidate.bytes.cmp(&a.candidate.bytes));
+    v.sort_by_key(|x| std::cmp::Reverse(x.candidate.bytes));
     v
 }
 

@@ -116,6 +116,6 @@ pub fn prune(dirs: &mut HashMap<PathBuf, DirRec>, root: &Path) {
 
 pub fn merge_top(into: &mut Vec<(PathBuf, u64)>, from: &[(PathBuf, u64)]) {
     into.extend_from_slice(from);
-    into.sort_by(|a, b| b.1.cmp(&a.1));
+    into.sort_by_key(|x| std::cmp::Reverse(x.1));
     into.truncate(TOP_FILES);
 }

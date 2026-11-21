@@ -243,7 +243,7 @@ pub fn evaluate(
     // A path matched by several rules: keep the first (most specific packs come first).
     let mut seen = std::collections::HashSet::new();
     candidates.retain(|c| seen.insert(c.path.clone()));
-    candidates.sort_by(|a, b| b.bytes.cmp(&a.bytes));
+    candidates.sort_by_key(|x| std::cmp::Reverse(x.bytes));
     Evaluation {
         candidates,
         protected,
