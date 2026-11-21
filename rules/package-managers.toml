@@ -1,0 +1,106 @@
+[[rule]]
+id = "npm-cache"
+title = "npm cache"
+paths = ["~/.npm/_cacache", "~/.npm/_npx"]
+kind = "package-cache"
+login_risk = "none"
+regenerable = true
+action = "delete"
+blocked_by_process = ["/npm", "/npx"]
+note = "Auth tokens live in .npmrc, not here."
+
+[[rule]]
+id = "yarn-cache"
+title = "Yarn cache"
+paths = ["~/Library/Caches/Yarn", "~/.cache/yarn"]
+kind = "package-cache"
+login_risk = "none"
+regenerable = true
+action = "delete-contents"
+
+[[rule]]
+id = "pip-cache"
+title = "pip cache"
+paths = ["~/Library/Caches/pip", "~/.cache/pip"]
+kind = "package-cache"
+login_risk = "none"
+regenerable = true
+action = "delete-contents"
+
+[[rule]]
+id = "uv-cache"
+title = "uv cache"
+paths = ["~/.cache/uv", "~/Library/Caches/uv"]
+kind = "package-cache"
+login_risk = "none"
+regenerable = true
+action = "delete-contents"
+blocked_by_process = ["/uv"]
+note = "`uv cache clean` does the same; virtualenvs that hard-link from the cache keep working."
+
+[[rule]]
+id = "homebrew-cache"
+title = "Homebrew download cache"
+paths = ["~/Library/Caches/Homebrew"]
+kind = "package-cache"
+login_risk = "none"
+regenerable = true
+action = "delete-contents"
+blocked_by_process = ["/brew"]
+
+[[rule]]
+id = "cocoapods-cache"
+title = "CocoaPods cache"
+paths = ["~/Library/Caches/CocoaPods"]
+kind = "package-cache"
+login_risk = "none"
+regenerable = true
+action = "delete-contents"
+
+[[rule]]
+id = "cargo-registry-cache"
+title = "Cargo downloaded crate archives"
+paths = ["~/.cargo/registry/cache"]
+kind = "package-cache"
+login_risk = "none"
+regenerable = true
+action = "delete-contents"
+blocked_by_process = ["/cargo"]
+
+[[rule]]
+id = "gradle-caches"
+title = "Gradle caches"
+paths = ["~/.gradle/caches"]
+kind = "package-cache"
+login_risk = "none"
+regenerable = true
+action = "delete-contents"
+blocked_by_process = ["GradleDaemon", "gradle"]
+
+[[rule]]
+id = "go-build-cache"
+title = "Go build cache"
+paths = ["~/Library/Caches/go-build", "~/.cache/go-build"]
+kind = "build-artifact"
+login_risk = "none"
+regenerable = true
+action = "delete-contents"
+
+[[rule]]
+id = "prisma-engines"
+title = "Prisma engine downloads"
+paths = ["~/.cache/prisma"]
+kind = "cache"
+login_risk = "none"
+regenerable = true
+action = "delete-contents"
+
+[[rule]]
+id = "nodebrew-sources"
+title = "nodebrew source tarballs and build trees"
+paths = ["~/.nodebrew/src/*"]
+kind = "build-artifact"
+login_risk = "none"
+regenerable = true
+action = "delete"
+note = "Only build inputs; installed Node versions under ~/.nodebrew/node are untouched."

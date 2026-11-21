@@ -1,0 +1,20 @@
+[package]
+name = "disk-sweep"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "AI-friendly disk cleanup: scan, classify, plan, apply (CLI + MCP)"
+
+[features]
+default = ["macos"]
+# macOS extras: APFS capacity, snapshots, running apps via NSWorkspace, TCC hints
+macos = ["dep:sweep-macos"]
+
+[dependencies]
+anyhow.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+clap.workspace = true
+sweep-core.workspace = true
+sweep-macos = { workspace = true, optional = true }
+libc.workspace = true

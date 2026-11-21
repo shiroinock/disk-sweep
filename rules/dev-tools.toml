@@ -1,0 +1,87 @@
+[[rule]]
+id = "xcode-derived-data"
+title = "Xcode DerivedData"
+paths = ["~/Library/Developer/Xcode/DerivedData"]
+kind = "build-artifact"
+login_risk = "none"
+regenerable = true
+action = "delete-contents"
+blocked_by_apps = ["com.apple.dt.Xcode"]
+platforms = ["macos"]
+
+[[rule]]
+id = "xcode-device-support"
+title = "Xcode device support symbols"
+paths = [
+  "~/Library/Developer/Xcode/iOS DeviceSupport",
+  "~/Library/Developer/Xcode/watchOS DeviceSupport",
+  "~/Library/Developer/Xcode/tvOS DeviceSupport",
+]
+kind = "cache"
+login_risk = "none"
+regenerable = true
+action = "delete-contents"
+blocked_by_apps = ["com.apple.dt.Xcode"]
+platforms = ["macos"]
+note = "Rebuilt the next time a device is connected for debugging (can take several minutes)."
+
+[[rule]]
+id = "coresimulator-caches"
+title = "iOS Simulator caches"
+paths = ["~/Library/Developer/CoreSimulator/Caches"]
+kind = "cache"
+login_risk = "none"
+regenerable = true
+action = "delete-contents"
+blocked_by_apps = ["com.apple.iphonesimulator"]
+platforms = ["macos"]
+
+[[rule]]
+id = "coresimulator-devices"
+title = "iOS Simulator devices (installed apps and their data)"
+paths = ["~/Library/Developer/CoreSimulator/Devices"]
+kind = "app-data"
+login_risk = "none"
+regenerable = false
+action = "delete-contents"
+blocked_by_apps = ["com.apple.iphonesimulator", "com.apple.dt.Xcode"]
+platforms = ["macos"]
+note = "Removes every simulator and the apps installed in them. Prefer `xcrun simctl delete unavailable` when Xcode is in use."
+
+[[rule]]
+id = "unity-cache"
+title = "Unity cache"
+paths = ["~/Library/Unity/cache", "~/.cache/unity3d"]
+kind = "cache"
+login_risk = "none"
+regenerable = true
+action = "delete-contents"
+blocked_by_process = ["Unity.app", "Unity Hub"]
+
+[[rule]]
+id = "typescript-cache"
+title = "TypeScript type acquisition cache"
+paths = ["~/Library/Caches/typescript"]
+kind = "cache"
+login_risk = "none"
+regenerable = true
+action = "delete-contents"
+
+[[rule]]
+id = "vscode-cpptools-cache"
+title = "VS Code C/C++ IntelliSense cache"
+paths = ["~/Library/Caches/vscode-cpptools", "~/.cache/vscode-cpptools"]
+kind = "cache"
+login_risk = "none"
+regenerable = true
+action = "delete-contents"
+
+[[rule]]
+id = "jetbrains-caches"
+title = "JetBrains IDE caches"
+paths = ["~/Library/Caches/JetBrains", "~/.cache/JetBrains"]
+kind = "cache"
+login_risk = "none"
+regenerable = true
+action = "delete-contents"
+blocked_by_process = ["JetBrains", "idea", "pycharm", "webstorm"]

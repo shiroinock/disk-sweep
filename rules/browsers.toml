@@ -1,0 +1,95 @@
+# Browser HTTP caches. Sign-in state lives in the profile (see protect.toml), not here.
+
+[[rule]]
+id = "chrome-cache"
+title = "Google Chrome cache"
+paths = ["~/Library/Caches/Google/Chrome", "~/.cache/google-chrome"]
+kind = "cache"
+login_risk = "none"
+regenerable = true
+action = "delete-contents"
+blocked_by_apps = ["com.google.Chrome"]
+blocked_by_process = ["Google Chrome.app/Contents/MacOS/Google Chrome", "/opt/google/chrome/chrome"]
+note = "HTTP and code caches only. Cookies are in the profile, so this does not sign you out."
+
+[[rule]]
+id = "arc-cache"
+title = "Arc cache"
+paths = ["~/Library/Caches/Arc"]
+kind = "cache"
+login_risk = "possible"
+regenerable = true
+action = "delete-contents"
+blocked_by_apps = ["company.thebrowser.Browser"]
+note = "Arc mirrors part of its profile layout here; treated as possible sign-in risk to be safe."
+
+[[rule]]
+id = "opera-gx-cache"
+title = "Opera GX cache"
+paths = ["~/Library/Caches/com.operasoftware.OperaGX"]
+kind = "cache"
+login_risk = "none"
+regenerable = true
+action = "delete-contents"
+blocked_by_apps = ["com.operasoftware.OperaGX"]
+
+[[rule]]
+id = "firefox-cache"
+title = "Firefox cache"
+paths = ["~/Library/Caches/Firefox", "~/.cache/mozilla/firefox"]
+kind = "cache"
+login_risk = "none"
+regenerable = true
+action = "delete-contents"
+blocked_by_apps = ["org.mozilla.firefox"]
+blocked_by_process = ["firefox"]
+
+[[rule]]
+id = "brave-cache"
+title = "Brave cache"
+paths = ["~/Library/Caches/BraveSoftware"]
+kind = "cache"
+login_risk = "none"
+regenerable = true
+action = "delete-contents"
+blocked_by_apps = ["com.brave.Browser"]
+
+[[rule]]
+id = "edge-cache"
+title = "Microsoft Edge cache"
+paths = ["~/Library/Caches/Microsoft Edge"]
+kind = "cache"
+login_risk = "none"
+regenerable = true
+action = "delete-contents"
+blocked_by_apps = ["com.microsoft.edgemac"]
+
+[[rule]]
+id = "playwright-old-browsers"
+title = "Old Playwright browser builds"
+paths = [
+  "~/Library/Caches/ms-playwright/chromium-*",
+  "~/Library/Caches/ms-playwright/chromium_headless_shell-*",
+  "~/Library/Caches/ms-playwright/firefox-*",
+  "~/Library/Caches/ms-playwright/webkit-*",
+  "~/Library/Caches/ms-playwright/ffmpeg-*",
+  "~/.cache/ms-playwright/chromium-*",
+  "~/.cache/ms-playwright/chromium_headless_shell-*",
+  "~/.cache/ms-playwright/firefox-*",
+  "~/.cache/ms-playwright/webkit-*",
+]
+kind = "cache"
+login_risk = "none"
+regenerable = true
+action = "delete"
+keep_latest = true
+note = "Keeps the newest build of each browser; older ones are re-downloaded by `npx playwright install` if a project pins them."
+
+[[rule]]
+id = "puppeteer-browsers"
+title = "Puppeteer browser downloads"
+paths = ["~/.cache/puppeteer"]
+kind = "cache"
+login_risk = "none"
+regenerable = true
+action = "delete-contents"

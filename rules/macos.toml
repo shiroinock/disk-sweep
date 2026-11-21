@@ -1,0 +1,25 @@
+[[rule]]
+id = "aerial-wallpaper-videos"
+title = "Aerial wallpaper and screen saver videos"
+paths = ["~/Library/Application Support/com.apple.wallpaper/aerials/videos"]
+kind = "media"
+login_risk = "none"
+regenerable = true
+action = "delete-contents"
+platforms = ["macos"]
+note = "Downloaded on demand by macOS; the current wallpaper video is fetched again if needed."
+
+[[rule]]
+id = "app-updater-caches"
+title = "App updater downloads (Squirrel ShipIt, Sparkle, electron-updater)"
+paths = [
+  "~/Library/Caches/*.ShipIt",
+  "~/Library/Caches/*/org.sparkle-project.Sparkle",
+  "~/Library/Caches/*-updater",
+]
+kind = "cache"
+login_risk = "none"
+regenerable = true
+action = "delete-contents"
+platforms = ["macos"]
+note = "Leftover update packages. An update in progress simply downloads again."

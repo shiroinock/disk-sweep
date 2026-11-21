@@ -1,0 +1,21 @@
+[package]
+name = "sweep-macos"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+anyhow.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+sweep-core.workspace = true
+
+[target.'cfg(target_os = "macos")'.dependencies]
+objc2 = "0.6"
+objc2-foundation = { version = "0.3", features = ["NSArray", "NSString", "NSURL", "NSValue", "NSDictionary", "NSError"] }
+objc2-app-kit = { version = "0.3", features = ["NSWorkspace", "NSRunningApplication"] }
+plist = "1"
+objc2-core-services = { version = "0.3", default-features = false, features = ["std", "FSEvents", "libc", "dispatch2"] }
+objc2-core-foundation = { version = "0.3", features = ["CFArray", "CFString", "CFUUID"] }
+dispatch2 = "0.3"
+libc = "0.2"

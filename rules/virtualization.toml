@@ -1,0 +1,28 @@
+# VM disk images. Not regenerable: every container, image and volume inside is lost.
+# Excluded from plans unless `include_non_regenerable` is set.
+
+[[rule]]
+id = "docker-desktop-disk"
+title = "Docker Desktop VM disk image"
+paths = ["~/Library/Containers/com.docker.docker/Data/vms/0/data/Docker.raw"]
+kind = "vm-image"
+login_risk = "none"
+regenerable = false
+action = "delete"
+blocked_by_apps = ["com.docker.docker"]
+blocked_by_process = ["com.docker.backend", "Docker Desktop"]
+platforms = ["macos"]
+note = "Deletes all containers, images and volumes. If Docker is still used, prefer `docker system prune -a` and Docker Desktop's disk limit."
+
+[[rule]]
+id = "orbstack-disk"
+title = "OrbStack VM disk image"
+paths = ["~/Library/Group Containers/HUAQ24HBR6.dev.orbstack/data/data.img", "~/Library/Group Containers/HUAQ24HBR6.dev.orbstack/data/swap.img"]
+kind = "vm-image"
+login_risk = "none"
+regenerable = false
+action = "delete"
+blocked_by_apps = ["dev.kdrag0n.MacVirt"]
+blocked_by_process = ["OrbStack"]
+platforms = ["macos"]
+note = "Deletes every OrbStack container, image, volume and Linux machine. If OrbStack is still used, prefer `orb prune` / `docker system prune -a`."

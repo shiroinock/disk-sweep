@@ -1,0 +1,45 @@
+# Things that look like caches but hold sign-in state. Never removed; listed so agents
+# can explain why they are left alone. Evaluated first, so they win over delete rules.
+
+[[rule]]
+id = "protect-playwright-mcp-profile"
+title = "Playwright MCP browser profiles"
+paths = ["~/Library/Caches/ms-playwright/mcp-*", "~/.cache/ms-playwright/mcp-*"]
+kind = "profile"
+login_risk = "high"
+action = "keep"
+note = "Browser profiles used by Playwright MCP. They keep site sign-ins even though they live under Caches."
+
+[[rule]]
+id = "protect-chrome-devtools-mcp-profile"
+title = "Chrome DevTools MCP browser profile"
+paths = ["~/.cache/chrome-devtools-mcp"]
+kind = "profile"
+login_risk = "high"
+action = "keep"
+note = "Holds sign-ins for the Chrome DevTools MCP browser."
+
+[[rule]]
+id = "protect-browser-profiles"
+title = "Browser profiles (cookies, saved sessions)"
+paths = [
+  "~/Library/Application Support/Google/Chrome",
+  "~/Library/Application Support/Arc/User Data",
+  "~/Library/Application Support/BraveSoftware",
+  "~/Library/Application Support/Microsoft Edge",
+  "~/Library/Application Support/Firefox/Profiles",
+  "~/Library/Application Support/com.operasoftware.OperaGX",
+  "~/.config/google-chrome",
+  "~/.mozilla/firefox",
+]
+kind = "profile"
+login_risk = "high"
+action = "keep"
+
+[[rule]]
+id = "protect-credentials"
+title = "Keychains and cookie stores"
+paths = ["~/Library/Keychains", "~/Library/Cookies", "~/.ssh", "~/.gnupg"]
+kind = "profile"
+login_risk = "high"
+action = "keep"
