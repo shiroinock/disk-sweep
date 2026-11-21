@@ -123,6 +123,10 @@ note = "Cookies are in the profile, so this does not sign you out."
 
 [Mole](https://github.com/tw93/Mole), [ncdu](https://dev.yorhel.nl/ncdu), [dua](https://github.com/Byron/dua-cli), [kondo](https://github.com/tbillington/kondo), [clean-dev-dirs](https://crates.io/crates/clean-dev-dirs), DaisyDisk, GrandPerspective. disk-sweep borrows their ideas (persistent index, project-artifact detection, largest-files view) and focuses on the agent-plus-human workflow.
 
+## Contributing
+
+Pull requests from branches of this repository are reviewed by Claude Code. When the review finds nothing to fix and CI passes, the PR is merged automatically. Pull requests from forks are reviewed and merged by hand.
+
 ## License
 
 MIT OR Apache-2.0
