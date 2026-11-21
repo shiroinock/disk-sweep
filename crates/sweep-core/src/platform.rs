@@ -125,8 +125,22 @@ pub fn statvfs_volume(path: &Path) -> Option<VolumeInfo> {
     })
 }
 
+/// Find an executable on PATH. `fallbacks` are OS-provided locations used only when PATH
+/// does not contain it (e.g. GUI-launched MCP servers with a minimal PATH).
+pub fn find_program(name: &str, fallbacks: &[&str]) -> Option<PathBuf> {
+    let on_path = std::env::var_os("PATH").and_then(|path| {
+        std::env::split_paths(&path)
+            .map(|d| d.join(name))
+            .find(|p| p.is_file())
+    });
+    on_path.or_else(|| fallbacks.iter().map(PathBuf::from).find(|p| p.is_file()))
+}
+
 pub fn ps_processes() -> Vec<String> {
-    Command::new("ps")
+    let Some(ps) = find_program("ps", &["/bin/ps", "/usr/bin/ps"]) else {
+        return Vec::new();
+    };
+    Command::new(ps)
         .args(["-axo", "comm="])
         .output()
         .map(|o| {

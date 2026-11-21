@@ -20,10 +20,9 @@ impl Default for MacPlatform {
 const DATA_ROOT: &str = "/System/Volumes/Data";
 
 fn diskutil_plist(args: &[&str]) -> Option<plist::Value> {
-    let out = Command::new("/usr/sbin/diskutil")
-        .args(args)
-        .output()
-        .ok()?;
+    // diskutil ships with macOS and is not packaged by Nix; look on PATH first.
+    let bin = platform::find_program("diskutil", &["/usr/sbin/diskutil"])?;
+    let out = Command::new(bin).args(args).output().ok()?;
     if !out.status.success() {
         return None;
     }
