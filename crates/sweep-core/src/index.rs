@@ -55,11 +55,12 @@ pub fn cache_dir() -> PathBuf {
             PathBuf::from("/root/.cache/disk-sweep")
         };
     }
+    if let Some(x) = std::env::var_os("XDG_CACHE_HOME").filter(|x| !x.is_empty()) {
+        return PathBuf::from(x).join("disk-sweep");
+    }
     let home = crate::platform::current_home();
     if cfg!(target_os = "macos") {
         home.join("Library/Caches/disk-sweep")
-    } else if let Some(x) = std::env::var_os("XDG_CACHE_HOME") {
-        PathBuf::from(x).join("disk-sweep")
     } else {
         home.join(".cache/disk-sweep")
     }

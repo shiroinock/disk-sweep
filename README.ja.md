@@ -40,6 +40,16 @@ Claude Code のプラグインとしても入れられます(バイナリは別�
 /plugin install disk-sweep --marketplace shiroinock/disk-sweep
 ```
 
+### Nix
+
+```sh
+nix run github:shiroinock/disk-sweep -- overview --human   # インストールせずに試す
+nix profile install github:shiroinock/disk-sweep           # インストール
+nix develop                                                 # cargo・clippy・rustfmt・rust-analyzer 入りの開発環境
+```
+
+対応システムは `aarch64-darwin`、`x86_64-linux`、`aarch64-linux` です。nixpkgs が `x86_64-darwin` のサポートを終了したため、Intel Mac ではリリースのバイナリを使ってください。Nix で入れた場合、`disk-sweep setup` は `/nix/store` のパスではなく、PATH 上のプロファイルのパスを設定に書き込みます。スキャンのインデックスの置き場所は `XDG_CACHE_HOME` で変えられます。
+
 ## 使い方
 
 ```sh

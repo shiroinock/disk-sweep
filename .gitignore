@@ -1,2 +1,5 @@
 /target
 *.plan.json
+/result
+/result-*
+.direnv/

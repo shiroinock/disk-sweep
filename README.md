@@ -56,6 +56,16 @@ Config files are backed up to `*.disk-sweep-backup` before they change, and the 
 
 Other agents that use the shared skills folder: `npx skills add shiroinock/disk-sweep`.
 
+### Nix
+
+```sh
+nix run github:shiroinock/disk-sweep -- overview --human   # try without installing
+nix profile install github:shiroinock/disk-sweep           # install
+nix develop                                                 # dev shell with cargo, clippy, rustfmt, rust-analyzer
+```
+
+The flake builds for `aarch64-darwin`, `x86_64-linux` and `aarch64-linux` (nixpkgs dropped `x86_64-darwin`; Intel Macs can use the release binaries). When installed through Nix, `disk-sweep setup` records the stable profile path rather than the `/nix/store` path in agent configs. Set `XDG_CACHE_HOME` to move the scan index.
+
 The macOS layer is the default `macos` feature; on other platforms a portable implementation is used.
 
 ## Use

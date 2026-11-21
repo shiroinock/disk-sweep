@@ -9,6 +9,7 @@ cargo fmt --check
 cargo clippy --all-targets -- -D warnings
 cargo test
 claude plugin validate .        # if you touched .claude-plugin/
+nix flake check && nix build    # if you touched flake.nix, Cargo.lock or embedded files
 ```
 
 CI runs the first three on macOS and Ubuntu with the latest stable Rust, which may lint more than your local toolchain.
@@ -28,3 +29,5 @@ CI runs the first three on macOS and Ubuntu with the latest stable Rust, which m
 - Tests and docs use temporary directories and generic paths. Never commit real usernames, home paths, emails or machine details.
 - `setup` must stay a dry run without `--yes`, back up files before editing them, and be reversible with `--uninstall`.
 - Keep `.claude-plugin/plugin.json` `version` equal to the crate version (a test checks this).
+- Files read with `include_str!` must be listed in the `fileset` in `flake.nix`, or `nix build` fails.
+- Find external commands on PATH (`platform::find_program`); OS fallbacks only for tools Nix cannot provide (`diskutil`).

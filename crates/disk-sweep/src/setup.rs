@@ -64,18 +64,23 @@ fn desktop_config() -> Option<PathBuf> {
 }
 
 fn which(bin: &str) -> Option<PathBuf> {
-    std::env::var_os("PATH")?
-        .to_str()?
-        .split(':')
-        .map(|d| Path::new(d).join(bin))
-        .find(|p| p.is_file())
+    platform::find_program(bin, &[])
 }
 
 /// Absolute path of this binary, so GUI apps without the shell PATH can launch it.
+///
+/// A Nix build lives in `/nix/store/<hash>-...`, which changes on every update and can be
+/// garbage-collected, so prefer the stable profile path (`~/.nix-profile/bin`,
+/// `/run/current-system/sw/bin`, ...) that PATH resolves to.
 pub fn exe() -> PathBuf {
-    std::env::current_exe()
-        .and_then(|p| p.canonicalize())
-        .unwrap_or_else(|_| PathBuf::from(SERVER))
+    let raw = std::env::current_exe().unwrap_or_else(|_| PathBuf::from(SERVER));
+    let real = raw.canonicalize().unwrap_or_else(|_| raw.clone());
+    if real.starts_with("/nix/store") {
+        if let Some(p) = which(SERVER) {
+            return p;
+        }
+    }
+    real
 }
 
 #[derive(Debug, Clone, Serialize)]
