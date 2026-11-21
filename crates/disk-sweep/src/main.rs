@@ -1,5 +1,6 @@
 mod mcp;
 mod ops;
+mod setup;
 
 use anyhow::Result;
 use clap::{Args, Parser, Subcommand};
@@ -162,6 +163,28 @@ enum Cmd {
         #[command(flatten)]
         target: TargetFlags,
     },
+    /// Install the skill and register the MCP server for detected AI agents. Dry run without --yes.
+    Setup {
+        /// Only these agents (repeatable). Default: every detected agent.
+        #[arg(long = "agent", value_enum)]
+        agents: Vec<setup::Agent>,
+        /// Skip installing the skill.
+        #[arg(long)]
+        no_skill: bool,
+        /// Skip registering the MCP server.
+        #[arg(long)]
+        no_mcp: bool,
+        /// Remove what setup installed instead.
+        #[arg(long)]
+        uninstall: bool,
+        /// Apply the steps.
+        #[arg(long)]
+        yes: bool,
+    },
+    /// Check the installation: binary, PATH, Full Disk Access, index, agent integrations.
+    Doctor,
+    /// Print the bundled skill (SKILL.md) to stdout.
+    Skill,
     /// Run as an MCP server on stdio.
     Mcp {
         /// Let agents call apply_plan. Off by default: agents get the command for a human instead.
@@ -183,6 +206,24 @@ fn main() -> Result<()> {
     let p = p.as_ref();
     let v: Value = match &cli.cmd {
         Cmd::Mcp { allow_apply } => return mcp::serve(*allow_apply),
+        Cmd::Skill => {
+            print!("{}", setup::SKILL_MD);
+            return Ok(());
+        }
+        Cmd::Doctor => setup::doctor()?,
+        Cmd::Setup {
+            agents,
+            no_skill,
+            no_mcp,
+            uninstall,
+            yes,
+        } => setup::setup(&setup::SetupOpts {
+            agents: agents.clone(),
+            skill: !no_skill,
+            mcp: !no_mcp,
+            remove: *uninstall,
+            apply: *yes,
+        })?,
         Cmd::Overview { cache } => ops::overview(p, &cache.to_args(None))?,
         Cmd::Scan { path, cache } => ops::scan(p, &cache.to_args(Some(path.clone())))?,
         Cmd::Candidates { target, min_mb } => ops::candidates(p, &target.to_args(), min_mb << 20)?,

@@ -14,7 +14,7 @@ macos = ["dep:sweep-macos"]
 [dependencies]
 anyhow.workspace = true
 serde.workspace = true
-serde_json.workspace = true
+serde_json = { workspace = true, features = ["preserve_order"] }
 clap.workspace = true
 sweep-core.workspace = true
 sweep-macos = { workspace = true, optional = true }

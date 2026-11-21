@@ -74,6 +74,7 @@ fn tools(allow_apply: bool) -> Value {
             "max_depth": {"type": "integer"}, "min_idle_days": {"type": "integer"}, "min_mb": {"type": "integer"}
         }), &[]), "annotations": {"readOnlyHint": true}}),
         json!({"name": "make_plan", "description": "Freeze a deletion plan to a file. Deletes nothing. Returns the list and the exact command for the human to apply it.", "inputSchema": schema(plan_props, &[])}),
+        json!({"name": "doctor", "description": "Check the installation: version, binary path, Full Disk Access, scan index, and which agents have the skill and MCP server set up.", "inputSchema": schema(json!({}), &[]), "annotations": {"readOnlyHint": true}}),
         json!({"name": "rules", "description": "List the rule packs that classify locations.", "inputSchema": schema(json!({}), &[]), "annotations": {"readOnlyHint": true}}),
     ];
     list.push(json!({"name": "apply_plan", "description": if allow_apply {
@@ -101,6 +102,7 @@ fn call(name: &str, args: Value, allow_apply: bool) -> Result<Value> {
         "projects" => ops::projects(&serde_json::from_value(args)?),
         "make_plan" => ops::make_plan(p, &serde_json::from_value(args)?),
         "rules" => ops::list_rules(&Default::default()),
+        "doctor" => crate::setup::doctor(),
         "apply_plan" => {
             let file = PathBuf::from(
                 args.get("plan_file")

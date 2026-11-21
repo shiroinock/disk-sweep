@@ -1,0 +1,12 @@
+{
+  "name": "disk-sweep",
+  "description": "disk-sweep: disk cleanup built for AI agents",
+  "owner": { "name": "shiroinock" },
+  "plugins": [
+    {
+      "name": "disk-sweep",
+      "source": "./",
+      "description": "Sign-in-aware disk cleanup skill and MCP server"
+    }
+  ]
+}

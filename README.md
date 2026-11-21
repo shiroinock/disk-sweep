@@ -16,9 +16,45 @@ Most cleaners are built for a person clicking through a UI. `disk-sweep` is buil
 
 ## Install
 
+### Let your agent do it
+
+Paste this into Claude Code, Codex or any agent with a shell:
+
+> Install disk-sweep with `curl -fsSL https://raw.githubusercontent.com/shiroinock/disk-sweep/main/install.sh | sh -s -- --setup`, then run `disk-sweep doctor --human` and tell me what it reports.
+
+The installer is non-interactive, needs no sudo, verifies checksums, falls back to `cargo install` when no prebuilt binary fits, and ends with one JSON line (`ok`, `path`, `version`, `on_path`). `--setup` then runs `disk-sweep setup --yes`.
+
+### By hand
+
 ```sh
-cargo install --git https://github.com/shiroinock/disk-sweep disk-sweep
+curl -fsSL https://raw.githubusercontent.com/shiroinock/disk-sweep/main/install.sh | sh   # prebuilt binary to ~/.local/bin
+cargo install --locked --git https://github.com/shiroinock/disk-sweep disk-sweep          # or from source
 ```
+
+### Hook it into your agents
+
+```sh
+disk-sweep setup          # dry run: shows what would change for each detected agent
+disk-sweep setup --yes    # apply
+disk-sweep doctor         # verify; `--uninstall` on setup reverses everything
+```
+
+| agent | skill | MCP server |
+|---|---|---|
+| Claude Code | `~/.claude/skills/disk-sweep/` | `claude mcp add --scope user ...` |
+| Codex | `~/.codex/skills/disk-sweep/` | `codex mcp add ...` |
+| Claude Desktop | (upload in the app) | `claude_desktop_config.json` |
+| Cursor | – | `~/.cursor/mcp.json` |
+
+Config files are backed up to `*.disk-sweep-backup` before they change, and the MCP entry uses the binary's absolute path so GUI apps without your shell PATH can start it.
+
+**Claude Code plugin** (skill and MCP server in one step; the binary still has to be installed):
+
+```
+/plugin install disk-sweep --marketplace shiroinock/disk-sweep
+```
+
+Other agents that use the shared skills folder: `npx skills add shiroinock/disk-sweep`.
 
 The macOS layer is the default `macos` feature; on other platforms a portable implementation is used.
 
@@ -40,11 +76,11 @@ disk-sweep apply --plan /tmp/disk-sweep-123.plan.json --yes  # delete
 { "mcpServers": { "disk-sweep": { "command": "disk-sweep", "args": ["mcp"] } } }
 ```
 
-Tools: `overview`, `scan`, `candidates`, `projects`, `make_plan`, `apply_plan`, `rules`.
+Tools: `overview`, `scan`, `candidates`, `projects`, `make_plan`, `apply_plan`, `doctor`, `rules`. `disk-sweep setup` writes this entry for you.
 
-### As a Claude skill
+### As a skill
 
-Copy `skill/disk-sweep` into your skills directory (for Claude Code: `~/.claude/skills/`).
+`disk-sweep setup --yes` installs it, or `disk-sweep skill` prints it so you can place it anywhere.
 
 ## Rules
 

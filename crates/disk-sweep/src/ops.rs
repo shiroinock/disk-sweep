@@ -344,6 +344,45 @@ pub fn render_human(v: &Value) -> String {
             }
         }
     }
+    if let Some(arr) = v
+        .get("steps")
+        .or_else(|| v.get("integrations"))
+        .and_then(|a| a.as_array())
+    {
+        for st in arr {
+            s.push_str(&format!(
+                "{:<15} {:<6} {:<19} -> {:<8} {}{}\n",
+                st["agent"].as_str().unwrap_or(""),
+                st["kind"].as_str().unwrap_or(""),
+                st["state"].as_str().unwrap_or(""),
+                st["action"].as_str().unwrap_or(""),
+                st["target"].as_str().unwrap_or(""),
+                st.get("result")
+                    .and_then(|r| r.as_str())
+                    .map(|r| format!("  [{r}]"))
+                    .unwrap_or_default(),
+            ));
+            let shows_command =
+                ["manual", "install", "remove"].contains(&st["action"].as_str().unwrap_or(""));
+            if let Some(c) = st
+                .get("command")
+                .and_then(|c| c.as_str())
+                .filter(|_| shows_command)
+            {
+                s.push_str(&format!("{:<15} command: {c}\n", ""));
+            }
+        }
+    }
+    for key in ["next_steps"] {
+        if let Some(arr) = v.get(key).and_then(|a| a.as_array()) {
+            for n in arr {
+                s.push_str(&format!("next: {}\n", n.as_str().unwrap_or("")));
+            }
+        }
+    }
+    if let Some(n) = v.get("next_step").and_then(|x| x.as_str()) {
+        s.push_str(&format!("next: {n}\n"));
+    }
     if let Some(arr) = v.get("hints").and_then(|a| a.as_array()) {
         for h in arr {
             s.push_str(&format!("hint: {}\n", h.as_str().unwrap_or("")));

@@ -7,6 +7,14 @@ description: Free disk space safely with the disk-sweep CLI. Use when the user a
 
 `disk-sweep` prints JSON for every command. Nothing is deleted unless a plan is applied with `--yes`.
 
+## Before you start
+
+1. `disk-sweep --version`. If the command is missing, install it (no sudo, prints one JSON line at the end):
+   `curl -fsSL https://raw.githubusercontent.com/shiroinock/disk-sweep/main/install.sh | sh`
+   If the result says `"on_path":false`, call the binary by the `path` it reports.
+2. `disk-sweep doctor --human` checks PATH, Full Disk Access and agent integrations, and lists `next_steps`.
+   `disk-sweep setup` (dry run) / `disk-sweep setup --yes` installs this skill and the MCP server for the agents it finds.
+
 ## Workflow
 
 1. **Measure.** `disk-sweep overview --depth 1`

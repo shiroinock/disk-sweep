@@ -14,6 +14,32 @@ AI エージェントと、それを承認する人のためのディスク整�
 - **2回目以降のスキャンが速い**:ディレクトリごとの合計をインデックスに保存します。macOS では FSEvents の履歴で変更のあったディレクトリだけをスキャンし直すので、ディスク全体のスキャンが約1分から数秒になります。ほかの OS では、更新時刻が変わっていないディレクトリのファイル確認を省きます。
 - **複数ユーザーに対応**:`sudo` で `--all-users` を付けると、すべてのアカウントのホームを対象にします。
 
+## インストール
+
+### エージェントに任せる
+
+Claude Code や Codex など、シェルを使えるエージェントに次の文を貼り付けてください。
+
+> `curl -fsSL https://raw.githubusercontent.com/shiroinock/disk-sweep/main/install.sh | sh -s -- --setup` で disk-sweep をインストールして、`disk-sweep doctor --human` の結果を教えて。
+
+インストーラーは対話なし・sudo なしで動き、チェックサムを確認します。合うビルド済みバイナリがなければ `cargo install` に切り替え、最後に結果を1行の JSON で出力します。`--setup` を付けると、続けて `disk-sweep setup --yes` を実行します。
+
+### エージェントへの組み込み
+
+```sh
+disk-sweep setup          # 試し実行。見つかったエージェントごとに、何を変えるかを表示
+disk-sweep setup --yes    # 適用
+disk-sweep doctor         # 確認。setup に --uninstall を付けると元に戻せます
+```
+
+Claude Code、Codex、Claude Desktop、Cursor に対応しています。設定ファイルは変更前に `*.disk-sweep-backup` としてバックアップします。
+
+Claude Code のプラグインとしても入れられます(バイナリは別途インストールが必要です)。
+
+```
+/plugin install disk-sweep --marketplace shiroinock/disk-sweep
+```
+
 ## 使い方
 
 ```sh
@@ -26,7 +52,7 @@ disk-sweep apply --plan /tmp/disk-sweep-123.plan.json        # 試し実行(削�
 disk-sweep apply --plan /tmp/disk-sweep-123.plan.json --yes  # 削除する
 ```
 
-MCP サーバーとして使う場合は `disk-sweep mcp` を登録します。Claude のスキルとして使う場合は、`skill/disk-sweep` をスキルのフォルダにコピーします。
+MCP サーバーとスキルの登録は `disk-sweep setup --yes` で行えます。`disk-sweep skill` でスキルの中身を出力することもできます。
 
 ルールの書き方と構成は [README.md](README.md) を参照してください。
 

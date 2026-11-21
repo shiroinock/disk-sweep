@@ -1,0 +1,16 @@
+{
+  "name": "disk-sweep",
+  "version": "0.1.0",
+  "description": "Free disk space safely: sign-in-aware cleanup with a plan/approve flow, as a skill plus an MCP server. Needs the disk-sweep binary on PATH (see README).",
+  "author": { "name": "shiroinock" },
+  "homepage": "https://github.com/shiroinock/disk-sweep",
+  "repository": "https://github.com/shiroinock/disk-sweep",
+  "license": "MIT OR Apache-2.0",
+  "keywords": ["disk", "cleanup", "storage", "cache", "mcp"],
+  "mcpServers": {
+    "disk-sweep": {
+      "command": "disk-sweep",
+      "args": ["mcp"]
+    }
+  }
+}
