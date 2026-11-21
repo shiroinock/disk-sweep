@@ -6,7 +6,7 @@ members = ["crates/sweep-core", "crates/sweep-macos", "crates/disk-sweep"]
 version = "0.1.0"
 edition = "2021"
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/OWNER/disk-sweep"
+repository = "https://github.com/shiroinock/disk-sweep"
 
 [workspace.dependencies]
 anyhow = "1"

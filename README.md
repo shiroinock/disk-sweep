@@ -17,7 +17,7 @@ Most cleaners are built for a person clicking through a UI. `disk-sweep` is buil
 ## Install
 
 ```sh
-cargo install --git https://github.com/OWNER/disk-sweep disk-sweep
+cargo install --git https://github.com/shiroinock/disk-sweep disk-sweep
 ```
 
 The macOS layer is the default `macos` feature; on other platforms a portable implementation is used.
